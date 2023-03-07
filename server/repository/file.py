@@ -37,7 +37,7 @@ class FileRepository:
         data = self.read()
 
         for i, d in enumerate(data):
-            if item.id == d["id"]:
+            if item["id"] == d["id"]:
                 break
         else:
             raise NotFound()

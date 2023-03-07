@@ -24,7 +24,12 @@ def read_items():
 @router.get("/items/{_id}", tags=["items"])
 def read_item(_id: str):
     repo = FileRepository()
-    data = repo.get(_id)
+
+    try:
+        data = repo.get(_id)
+    except NotFound:
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
+
     return Item(**data)
 
 
@@ -43,6 +48,7 @@ def update_item(item: Item, _id: str):
 @router.delete("/items/{_id}", tags=["items"])
 def delete_item(_id: str):
     repo = FileRepository()
+
     try:
         repo.get(_id)
     except NotFound:
