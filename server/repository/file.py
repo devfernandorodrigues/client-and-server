@@ -15,7 +15,7 @@ class FileRepository:
         repository_path = Path(os.path.dirname(os.path.abspath(__file__)))
         self.file_path = repository_path.parent / "db" / "items.json"
 
-    def read(self):
+    def all(self):
         with open(self.file_path, "r") as f:
             try:
                 return json.load(f)
@@ -27,14 +27,14 @@ class FileRepository:
             json.dump(data, f, default=str)
 
     def get(self, _id):
-        data = self.read()
+        data = self.all()
         item = [d for d in data if d["id"] == _id]
         if len(item) == 0:
             raise NotFound()
         return item[0]
 
     def update(self, item):
-        data = self.read()
+        data = self.all()
 
         for i, d in enumerate(data):
             if item["id"] == d["id"]:
@@ -51,7 +51,7 @@ class FileRepository:
         return item
 
     def delete(self, _id):
-        data = self.read()
+        data = self.all()
 
         for i, d in enumerate(data):
             if _id == d["id"]:
@@ -64,7 +64,7 @@ class FileRepository:
         self.save(data)
 
     def create(self, item):
-        data = self.read()
+        data = self.all()
         item["id"] = str(uuid.uuid4())
         data.append(item)
 
