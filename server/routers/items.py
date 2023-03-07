@@ -42,7 +42,7 @@ def update_item(item: Item, _id: int):
     repo = FileRepository()
 
     try:
-        repo.update(item)
+        repo.update(item.dict())
     except NotFound:
         return Response(status_code=status.HTTP_404_NOT_FOUND)
 

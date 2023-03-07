@@ -43,7 +43,7 @@ class FileRepository:
 
         data.pop(i)
 
-        data.insert(i, item.dict())
+        data.insert(i, item)
 
         self.save(data)
 
