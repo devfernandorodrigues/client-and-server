@@ -1,3 +1,3 @@
-# Client And Server Writte in Python
+# Client And Server Written in Python
 
 Just to practice.
