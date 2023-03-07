@@ -1,3 +1,4 @@
+import uuid
 import json
 from json import JSONDecodeError
 import os
@@ -61,3 +62,12 @@ class FileRepository:
         data.pop(i)
 
         self.save(data)
+
+    def create(self, item):
+        data = self.read()
+        item["id"] = str(uuid.uuid4())
+        data.append(item)
+
+        self.save(data)
+
+        return item

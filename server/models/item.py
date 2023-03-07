@@ -4,6 +4,6 @@ from decimal import Decimal
 
 
 class Item(BaseModel):
-    id: Optional[int]
+    id: Optional[str]
     name: str
     price: Decimal
