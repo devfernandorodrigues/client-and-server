@@ -20,7 +20,7 @@ class FileRepository:
             try:
                 return json.load(f)
             except JSONDecodeError:
-                return []
+                return {}
 
     def save(self, data):
         with open(self.file_path, "w") as f:
@@ -28,23 +28,19 @@ class FileRepository:
 
     def get(self, _id):
         data = self.all()
-        item = [d for d in data if d["id"] == _id]
-        if len(item) == 0:
+
+        try:
+            return data[_id]
+        except KeyError:
             raise NotFound()
-        return item[0]
 
     def update(self, item):
         data = self.all()
 
-        for i, d in enumerate(data):
-            if item["id"] == d["id"]:
-                break
-        else:
+        try:
+            data[item["id"]] = item
+        except KeyError:
             raise NotFound()
-
-        data.pop(i)
-
-        data.insert(i, item)
 
         self.save(data)
 
@@ -52,22 +48,12 @@ class FileRepository:
 
     def delete(self, _id):
         data = self.all()
-
-        for i, d in enumerate(data):
-            if _id == d["id"]:
-                break
-        else:
-            raise NotFound()
-
-        data.pop(i)
-
+        del data[_id]
         self.save(data)
 
     def create(self, item):
         data = self.all()
         item["id"] = str(uuid.uuid4())
-        data.append(item)
-
+        data[item["id"]] = item
         self.save(data)
-
         return item

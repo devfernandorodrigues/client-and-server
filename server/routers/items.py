@@ -18,7 +18,7 @@ def create_item(item: Item):
 def read_items():
     repo = FileRepository()
     data = repo.all()
-    return [Item(**d) for d in data]
+    return [Item(**d) for _, d in data.items()]
 
 
 @router.get("/items/{_id}", tags=["items"])
